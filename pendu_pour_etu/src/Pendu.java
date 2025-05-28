@@ -81,6 +81,8 @@ public class Pendu extends Application {
 
     private Label titre;
 
+    private Button boutonInfo;
+
     /**
      * initialise les attributs (créer le modèle, charge les images, crée le chrono ...)
      */
@@ -90,12 +92,26 @@ public class Pendu extends Application {
         this.lesImages = new ArrayList<Image>();
         this.chargerImages("./img");
 
+        this.boutonInfo = new Button();
+        this.boutonParametres = new Button();
+        this.boutonMaison = new Button();
+
+
+        ImageView accueil = new ImageView(new Image("file:../img/home.png"));
+        accueil.setFitHeight(30);
+        accueil.setFitWidth(30);
+        ImageView param = new ImageView(new Image("file:../img/parametres.png"));
+        param.setFitHeight(30);
+        param.setFitWidth(30);
+        ImageView info = new ImageView(new Image("file:../img/info.png"));
+        info.setFitHeight(30);
+        info.setFitWidth(30);
 
         this.bJouer = new Button("Lancer la partie");
-        this.boutonMaison = new Button();
-        boutonMaison.setGraphic(new ImageView(new Image("file:./img/home.png")));
-        this.boutonParametres = new Button();
-        boutonParametres.setGraphic(new ImageView(new Image("file:./img/parametres.png")));
+
+        this.boutonMaison.setGraphic(accueil);
+        this.boutonParametres.setGraphic(param);
+        this.boutonInfo.setGraphic(info);
 
 
         this.leNiveau = new Text();
@@ -105,7 +121,7 @@ public class Pendu extends Application {
         this.motCrypte = new Text();
         this.pg = new ProgressBar();
         this.titre = new Label("Jeu du Pendu");
-        titre.setFont(Font.font("Arial", FontWeight.BOLD, 19));
+        this.titre.setFont(Font.font("Arial", FontWeight.BLACK, 19));
 
 
     }
@@ -123,15 +139,14 @@ public class Pendu extends Application {
     /**
      * @return le panel contenant le titre du jeu
      */
-    private HBox titre(){
-        HBox banniere = new HBox(10);
-        titre.setAlignment(Pos.CENTER_LEFT);
-        boutonMaison.setAlignment(Pos.CENTER_RIGHT);
-        boutonParametres.setAlignment(Pos.CENTER_RIGHT);
-        banniere.getChildren().addAll(titre, boutonMaison, boutonParametres);
-        banniere.setSpacing(380);
+    private BorderPane titre(){
+        BorderPane banniere = new BorderPane();
+        banniere.setLeft(this.titre);
+        HBox boutons = new HBox();
+        boutons.getChildren().addAll(this.boutonMaison, this.boutonParametres, this.boutonInfo);
+        banniere.setRight(boutons);
         banniere.setBackground(new Background(new BackgroundFill(Color.ROYALBLUE, null, null)));
-        banniere.setPadding(new Insets(10));
+        banniere.setPadding(new Insets(30));
         return banniere;
     }
 
@@ -157,11 +172,12 @@ public class Pendu extends Application {
     // /**
      // * @return la fenêtre d'accueil sur laquelle on peut choisir les paramètres de jeu
      // */
-    // private Pane fenetreAccueil(){
-        // A implementer    
-        // Pane res = new Pane();
-        // return res;
-    // }
+    private BorderPane fenetreAccueil(){
+        BorderPane res = new BorderPane();
+        return res;
+
+        //TItlePANE et on ajoute une VBox dedans 
+    }
 
     /**
      * charge les images à afficher en fonction des erreurs
