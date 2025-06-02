@@ -128,7 +128,7 @@ public class Pendu extends Application {
         this.titre = new Label("Jeu du Pendu");
         this.titre.setFont(Font.font("Arial", FontWeight.BLACK, 30));
         this.panelCentral = fenetreAccueil();
-        this.clavier = new Clavier("ABCDEFGHIJKLMNOPQRSTUVWXYZ-", e -> {}, 8);
+        this.clavier = new Clavier("ABCDEFGHIJKLMNOPQRSTUVWXYZ-", new ControleurLettres(this.modelePendu, this), 7);
         this.chrono = new Chronometre();
         
         
@@ -163,13 +163,24 @@ public class Pendu extends Application {
      // *         de progression et le clavier
      // */
     private BorderPane fenetreJeu(){
+        this.boutonParametres.setDisable(true);
+        this.dessin.setImage(this.lesImages.get(0)); 
+        this.dessin.setFitHeight(300);
+        this.dessin.setPreserveRatio(true);
         RetourAccueil accueil = new RetourAccueil(modelePendu, this);
         this.boutonMaison.setOnAction(accueil);
         this.boutonMaison.setDisable(false);
 
         BorderPane res = new BorderPane();
         VBox center = new VBox(15);
+
+        this.motCrypte.setText(this.modelePendu.getMotCrypte());
+        this.motCrypte.setFont(Font.font("Arial", FontWeight.BOLD, 40));
+        this.motCrypte.setFill(Color.DARKBLUE);
+        this.motCrypte.setTextAlignment(TextAlignment.CENTER);
+        center.setAlignment(Pos.CENTER);
         center.getChildren().addAll(this.motCrypte, this.dessin, this.pg, this.clavier);
+        
         res.setCenter(center);
         VBox right = new VBox(15);
         right.getChildren().addAll(this.leNiveau, this.chrono, this.bJouer);
@@ -239,11 +250,19 @@ public class Pendu extends Application {
         modeJeu();
     }
 
+    public void mettreAJourImage() {
+        int indiceImage = this.modelePendu.getNbErreursMax() - this.modelePendu.getNbErreursRestants();
+        if (indiceImage >= 0 && indiceImage < this.lesImages.size()) {
+            this.dessin.setImage(this.lesImages.get(indiceImage));
+        }
+    }
+
     /**
      * raffraichit l'affichage selon les données du modèle
      */
     public void majAffichage(){
-        // A implementer
+        this.motCrypte.setText(this.modelePendu.getMotCrypte());
+        mettreAJourImage();    
     }
 
     /**
