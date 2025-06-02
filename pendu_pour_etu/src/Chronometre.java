@@ -32,14 +32,18 @@ public class Chronometre extends Text{
      * avec un label initialisé à "0:0:0"
      * Ce constructeur créer la Timeline, la KeyFrame et le contrôleur
      */
-    public Chronometre(ControleurChronometre actionTemps){
+    public Chronometre(){
         // A implémenter
         // this.actionTemps = actionTemps;
         // this.keyFrame = new KeyFrame(null, null);
         // this.timeline = new Timeline();
         // this.temps = new Label();
         // this.temps.setText(0+":"+0+":"+0);
+        super("0s");
+        this.setFont(new Font(20));
     }
+
+    
 
     /**
      * Permet au controleur de mettre à jour le text

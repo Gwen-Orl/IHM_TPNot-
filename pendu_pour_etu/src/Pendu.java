@@ -128,19 +128,12 @@ public class Pendu extends Application {
         this.titre = new Label("Jeu du Pendu");
         this.titre.setFont(Font.font("Arial", FontWeight.BLACK, 30));
         this.panelCentral = fenetreAccueil();
-
-
+        this.clavier = new Clavier("ABCDEFGHIJKLMNOPQRSTUVWXYZ-", e -> {}, 8);
+        this.chrono = new Chronometre();
+        
+        
     }
 
-    /**
-     * @return  le graphe de scène de la vue à partir de methodes précédantes
-     */
-    private Scene laScene(){
-        BorderPane fenetre = new BorderPane();
-        fenetre.setTop(titre());
-        fenetre.setCenter(this.panelCentral);
-        return new Scene(fenetre, 800, 1000);
-    }
 
     /**
      * @return le panel contenant le titre du jeu
@@ -170,9 +163,18 @@ public class Pendu extends Application {
      // *         de progression et le clavier
      // */
     private BorderPane fenetreJeu(){
-        BorderPane res = new BorderPane();
         RetourAccueil accueil = new RetourAccueil(modelePendu, this);
         this.boutonMaison.setOnAction(accueil);
+        this.boutonMaison.setDisable(false);
+
+        BorderPane res = new BorderPane();
+        VBox center = new VBox(15);
+        center.getChildren().addAll(this.motCrypte, this.dessin, this.pg, this.clavier);
+        res.setCenter(center);
+        VBox right = new VBox(15);
+        right.getChildren().addAll(this.leNiveau, this.chrono, this.bJouer);
+        res.setRight(right);
+        
         return res;
     }
 
@@ -202,6 +204,7 @@ public class Pendu extends Application {
         accueil.getChildren().addAll(this.bJouer, titreRadio);
         accueil.setPadding(new Insets(20,40,20,40));
         res.setCenter(accueil);
+        this.boutonMaison.setDisable(true);
         return res;
     }
 

@@ -30,11 +30,12 @@ public class Clavier extends TilePane{
         this.setPrefColumns(tailleLigne);
         this.setPrefRows((int) Math.ceil((double) 27 / tailleLigne));
         touches = "ABCDEFGHIJKLMNOPQRSTUVWXYZ-";
-        for (int i = 0; i<=touches.length(); i++){
+        for (int i = 0; i < touches.length(); i++) {
             Button lettre = new Button();
             lettre.setText(String.valueOf(touches.charAt(i)));
             clavier.add(lettre);
-        }
+            this.getChildren().add(lettre);
+}
 
     }
 

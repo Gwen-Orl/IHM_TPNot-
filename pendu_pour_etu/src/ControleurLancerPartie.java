@@ -31,7 +31,6 @@ public class ControleurLancerPartie implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent actionEvent) {
-        // A implémenter
         if (!(this.modelePendu.gagne())&& !(this.modelePendu.perdu())){
             Optional<ButtonType> reponse = this.vuePendu.popUpPartieEnCours().showAndWait(); // on lance la fenêtre popup et on attends la réponse
             // si la réponse est oui
