@@ -84,6 +84,11 @@ public class Pendu extends Application {
 
     private Button boutonInfo;
 
+    private Stage primaryStage;
+
+    private BorderPane root;
+
+
     /**
      * initialise les attributs (créer le modèle, charge les images, crée le chrono ...)
      */
@@ -98,13 +103,13 @@ public class Pendu extends Application {
         this.boutonMaison = new Button();
 
 
-        ImageView accueil = new ImageView(new Image("file:./pendu_pour_etu/img/home.png"));
+        ImageView accueil = new ImageView(new Image("file:./img/home.png"));
         accueil.setFitHeight(40);
         accueil.setFitWidth(40);
-        ImageView param = new ImageView(new Image("file:./pendu_pour_etu/img/parametres.png"));
+        ImageView param = new ImageView(new Image("file:./img/parametres.png"));
         param.setFitHeight(40);
         param.setFitWidth(40);
-        ImageView info = new ImageView(new Image("file:./pendu_pour_etu/img/info.png"));
+        ImageView info = new ImageView(new Image("file:./img/info.png"));
         info.setFitHeight(40);
         info.setFitWidth(40);
 
@@ -132,7 +137,7 @@ public class Pendu extends Application {
      */
     private Scene laScene(){
         BorderPane fenetre = new BorderPane();
-        fenetre.setTop(this.titre());
+        fenetre.setTop(titre());
         fenetre.setCenter(this.panelCentral);
         return new Scene(fenetre, 800, 1000);
     }
@@ -146,7 +151,7 @@ public class Pendu extends Application {
         HBox boutons = new HBox();
         boutons.getChildren().addAll(this.boutonMaison, this.boutonParametres, this.boutonInfo);
         banniere.setRight(boutons);
-        banniere.setBackground(new Background(new BackgroundFill(Color.ROYALBLUE, null, null)));
+        banniere.setStyle("-fx-background-color:rgb(218, 230, 243);");
         banniere.setPadding(new Insets(30));
         return banniere;
     }
@@ -186,11 +191,12 @@ public class Pendu extends Application {
         medium.setToggleGroup(indiv);
         difficile.setToggleGroup(indiv);
         expert.setToggleGroup(indiv);
-        VBox niveaux = new VBox(facile, medium, difficile, expert);
+        VBox niveaux = new VBox(10);
+        niveaux.getChildren().addAll(facile, medium, difficile, expert);
         TitledPane titreRadio = new TitledPane("Niveau de difficulté", niveaux);
 
-        ControleurLancerPartie controleur = new ControleurLancerPartie(modelePendu, this);
-        this.bJouer.setOnAction(controleur);
+        ControleurLancerPartie lancerPartie = new ControleurLancerPartie(modelePendu, this);
+        this.bJouer.setOnAction(lancerPartie);
         VBox accueil = new VBox();
         titreRadio.setPadding(new Insets(20,40,20,0));
         accueil.getChildren().addAll(this.bJouer, titreRadio);
@@ -213,10 +219,12 @@ public class Pendu extends Application {
 
     public void modeAccueil(){
         this.panelCentral = fenetreAccueil();
+        this.root.setCenter(this.panelCentral);
     }
     
     public void modeJeu(){
         this.panelCentral = fenetreJeu();
+        this.root.setCenter(this.panelCentral);
     }
     
     public void modeParametres(){
@@ -225,7 +233,7 @@ public class Pendu extends Application {
 
     /** lance une partie */
     public void lancePartie(){
-        this.panelCentral=fenetreJeu();
+        modeJeu();
     }
 
     /**
@@ -275,10 +283,17 @@ public class Pendu extends Application {
     @Override
     public void start(Stage stage) {
         stage.setTitle("IUTEAM'S - La plateforme de jeux de l'IUTO");
-        stage.setScene(this.laScene());
-        this.modeAccueil();
+        this.primaryStage = stage;
+        this.root = new BorderPane();
+        this.root.setTop(titre());
+        this.panelCentral = fenetreAccueil();
+        this.root.setCenter(this.panelCentral);
+
+        Scene scene = new Scene(this.root, 800, 1000);
+        stage.setScene(scene);
         stage.show();
     }
+
 
     /**
      * Programme principal
