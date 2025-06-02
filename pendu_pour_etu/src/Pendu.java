@@ -17,6 +17,7 @@ import javafx.scene.control.ButtonBar.ButtonData ;
 import java.util.List;
 import java.util.Arrays;
 import java.io.File;
+import java.security.spec.ECFieldF2m;
 import java.util.ArrayList;
 
 
@@ -97,17 +98,16 @@ public class Pendu extends Application {
         this.boutonMaison = new Button();
 
 
-        ImageView accueil = new ImageView(new Image("file:../img/home.png"));
-        accueil.setFitHeight(30);
-        accueil.setFitWidth(30);
-        ImageView param = new ImageView(new Image("file:../img/parametres.png"));
-        param.setFitHeight(30);
-        param.setFitWidth(30);
-        ImageView info = new ImageView(new Image("file:../img/info.png"));
-        info.setFitHeight(30);
-        info.setFitWidth(30);
+        ImageView accueil = new ImageView(new Image("file:./pendu_pour_etu/img/home.png"));
+        accueil.setFitHeight(40);
+        accueil.setFitWidth(40);
+        ImageView param = new ImageView(new Image("file:./pendu_pour_etu/img/parametres.png"));
+        param.setFitHeight(40);
+        param.setFitWidth(40);
+        ImageView info = new ImageView(new Image("file:./pendu_pour_etu/img/info.png"));
+        info.setFitHeight(40);
+        info.setFitWidth(40);
 
-        this.bJouer = new Button("Lancer la partie");
 
         this.boutonMaison.setGraphic(accueil);
         this.boutonParametres.setGraphic(param);
@@ -121,7 +121,8 @@ public class Pendu extends Application {
         this.motCrypte = new Text();
         this.pg = new ProgressBar();
         this.titre = new Label("Jeu du Pendu");
-        this.titre.setFont(Font.font("Arial", FontWeight.BLACK, 19));
+        this.titre.setFont(Font.font("Arial", FontWeight.BLACK, 30));
+        this.panelCentral = fenetreAccueil();
 
 
     }
@@ -163,20 +164,39 @@ public class Pendu extends Application {
      // * @return la fenêtre de jeu avec le mot crypté, l'image, la barre
      // *         de progression et le clavier
      // */
-    // private Pane fenetreJeu(){
-        // A implementer
-        // Pane res = new Pane();
-        // return res;
-    // }
+    private BorderPane fenetreJeu(){
+        BorderPane res = new BorderPane();
+        RetourAccueil accueil = new RetourAccueil(modelePendu, this);
+        this.boutonMaison.setOnAction(accueil);
+        return res;
+    }
 
     // /**
      // * @return la fenêtre d'accueil sur laquelle on peut choisir les paramètres de jeu
      // */
     private BorderPane fenetreAccueil(){
+        this.bJouer = new Button("Lancer la partie");
         BorderPane res = new BorderPane();
-        return res;
+        RadioButton facile = new RadioButton("facile");
+        RadioButton medium = new RadioButton("medium");
+        RadioButton difficile = new RadioButton("difficile");
+        RadioButton expert = new RadioButton("expert");
+        ToggleGroup indiv = new ToggleGroup();
+        facile.setToggleGroup(indiv);
+        medium.setToggleGroup(indiv);
+        difficile.setToggleGroup(indiv);
+        expert.setToggleGroup(indiv);
+        VBox niveaux = new VBox(facile, medium, difficile, expert);
+        TitledPane titreRadio = new TitledPane("Niveau de difficulté", niveaux);
 
-        //TItlePANE et on ajoute une VBox dedans 
+        ControleurLancerPartie controleur = new ControleurLancerPartie(modelePendu, this);
+        this.bJouer.setOnAction(controleur);
+        VBox accueil = new VBox();
+        titreRadio.setPadding(new Insets(20,40,20,0));
+        accueil.getChildren().addAll(this.bJouer, titreRadio);
+        accueil.setPadding(new Insets(20,40,20,40));
+        res.setCenter(accueil);
+        return res;
     }
 
     /**
@@ -192,11 +212,11 @@ public class Pendu extends Application {
     }
 
     public void modeAccueil(){
-        // A implementer
+        this.panelCentral = fenetreAccueil();
     }
     
     public void modeJeu(){
-        // A implementer
+        this.panelCentral = fenetreJeu();
     }
     
     public void modeParametres(){
@@ -205,7 +225,7 @@ public class Pendu extends Application {
 
     /** lance une partie */
     public void lancePartie(){
-        // A implementer
+        this.panelCentral=fenetreJeu();
     }
 
     /**
