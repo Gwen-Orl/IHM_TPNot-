@@ -15,6 +15,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.control.ButtonBar.ButtonData ;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Arrays;
 import java.io.File;
 import java.security.spec.ECFieldF2m;
@@ -195,13 +196,20 @@ public class Pendu extends Application {
     
     int niveau = this.modelePendu.getNiveau();
     switch (niveau) {
-        case 0 -> this.leNiveau.setText("Niveau Facile");
-        case 1 -> this.leNiveau.setText("Niveau Medium");
-        case 2 -> this.leNiveau.setText("Niveau Difficile");
-        case 3 -> this.leNiveau.setText("Niveau Expert");
+        case 0 : this.leNiveau.setText("Niveau Facile"); break;
+        case 1 : this.leNiveau.setText("Niveau Medium"); break;
+        case 2 : this.leNiveau.setText("Niveau Difficile"); break;
+        case 3 : this.leNiveau.setText("Niveau Expert"); break;
     }
     this.leNiveau.setFont(Font.font("Arial", FontWeight.BLACK, 20));
-    right.getChildren().addAll(this.leNiveau, this.chrono, this.bJouer);
+    Button nouveauMot = new Button("Nouveau mot");
+    nouveauMot.setOnAction(e -> {
+        Optional<ButtonType> reponse = popUpPartieEnCours().showAndWait(); 
+        if (reponse.isPresent() && reponse.get().equals(ButtonType.YES)){
+            lancePartie();
+        }   
+    });
+    right.getChildren().addAll(this.leNiveau, this.chrono, nouveauMot);
     res.setRight(right);
 
     return res;
@@ -219,6 +227,8 @@ public class Pendu extends Application {
         RadioButton difficile = new RadioButton("difficile");
         RadioButton expert = new RadioButton("expert");
         ToggleGroup indiv = new ToggleGroup();
+
+        
         facile.setToggleGroup(indiv);
         medium.setToggleGroup(indiv);
         difficile.setToggleGroup(indiv);
@@ -270,6 +280,7 @@ public class Pendu extends Application {
 
     /** lance une partie */
     public void lancePartie(){
+        this.modelePendu.relancerPartie();
         modeJeu();
     }
 
