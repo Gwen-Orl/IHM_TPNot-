@@ -122,7 +122,6 @@ public class Pendu extends Application {
 
 
         this.leNiveau = new Text();
-        // this.chrono = new Chronometre(null);
         this.niveaux = new ArrayList<>();
         this.dessin = new ImageView();
         this.motCrypte = new Text();
@@ -210,7 +209,7 @@ public class Pendu extends Application {
     ControleurLancerPartie reLancerPartie = new ControleurLancerPartie(modelePendu, this);
     Button nouveauMot = new Button("Nouveau mot");
     nouveauMot.setOnAction(reLancerPartie);
-    right.getChildren().addAll(this.leNiveau, this.chrono, nouveauMot);
+    right.getChildren().addAll(this.leNiveau, this.leChrono(), nouveauMot);
     res.setRight(right);
 
     return res;

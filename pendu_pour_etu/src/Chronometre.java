@@ -37,7 +37,6 @@ public class Chronometre extends Text{
         setFont(Font.font("Calibri", 20));
         setTextAlignment(TextAlignment.CENTER);
         actionTemps = new ControleurChronometre(this);
-
         keyFrame = new KeyFrame(Duration.seconds(1), actionTemps);
         timeline = new Timeline(keyFrame);
         timeline.setCycleCount(Animation.INDEFINITE);
@@ -51,7 +50,6 @@ public class Chronometre extends Text{
      * @param tempsMillisec la durée depuis à afficher
      */
     public void setTime(long tempsMillisec){
-        // A implémenter
         long secondes = tempsMillisec /100;
         if( secondes>=60){
             long minutes = secondes/60;

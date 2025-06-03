@@ -38,18 +38,18 @@ public class ControleurLettres implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent actionEvent) {
-    Button button = (Button) (actionEvent.getSource());
-    String lettreATrouver = button.getText();
-    this.ensemble.add(lettreATrouver);
-    this.vuePendu.getClavier().desactiveTouches(ensemble);
-    this.modelePendu.essaiLettre(lettreATrouver.charAt(0));
-    this.vuePendu.majAffichage();
-    if (this.modelePendu.gagne()) {
-        this.vuePendu.popUpMessageGagne().showAndWait();
+        Button button = (Button) (actionEvent.getSource());
+        String lettreATrouver = button.getText();
+        this.ensemble.add(lettreATrouver);
+        this.vuePendu.getClavier().desactiveTouches(ensemble);
+        this.modelePendu.essaiLettre(lettreATrouver.charAt(0));
+        this.vuePendu.majAffichage();
+        if (this.modelePendu.gagne()) {
+            this.vuePendu.popUpMessageGagne().showAndWait();
+        }
+        if (this.modelePendu.perdu()) {
+            this.vuePendu.popUpMessagePerdu().showAndWait();
+        }
     }
-    if (this.modelePendu.perdu()) {
-        this.vuePendu.popUpMessagePerdu().showAndWait();
-    }
-}
 }
 
