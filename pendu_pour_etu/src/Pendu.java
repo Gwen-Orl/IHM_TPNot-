@@ -88,6 +88,8 @@ public class Pendu extends Application {
 
     private BorderPane root;
 
+    private ToggleGroup indiv;
+
 
     /**
      * initialise les attributs (créer le modèle, charge les images, crée le chrono ...)
@@ -188,8 +190,7 @@ public class Pendu extends Application {
     res.setCenter(center);
 
     VBox right = new VBox(15);
-    right.setAlignment(Pos.TOP_CENTER);
-    right.setMaxHeight(Double.MAX_VALUE);
+
     right.setPrefWidth(275);
     right.setPadding(new Insets(30, 0, 0, 0));
     
@@ -221,7 +222,7 @@ public class Pendu extends Application {
         RadioButton medium = new RadioButton("medium");
         RadioButton difficile = new RadioButton("difficile");
         RadioButton expert = new RadioButton("expert");
-        ToggleGroup indiv = new ToggleGroup();
+        this.indiv = new ToggleGroup();
 
         
         facile.setToggleGroup(indiv);
@@ -231,6 +232,8 @@ public class Pendu extends Application {
         VBox niveaux = new VBox(10);
         niveaux.getChildren().addAll(facile, medium, difficile, expert);
         TitledPane titreRadio = new TitledPane("Niveau de difficulté", niveaux);
+
+        
 
         ControleurLancerPartie lancerPartie = new ControleurLancerPartie(modelePendu, this);
         this.bJouer.setOnAction(lancerPartie);
@@ -244,6 +247,7 @@ public class Pendu extends Application {
         res.setCenter(accueil);
         this.boutonMaison.setDisable(true);
         this.boutonParametres.setDisable(false);
+        
         return res;
     }
 
@@ -279,6 +283,8 @@ public class Pendu extends Application {
         modeJeu();
     }
 
+
+
     public void mettreAJourImage() {
         int indiceImage = this.modelePendu.getNbErreursMax() - this.modelePendu.getNbErreursRestants();
         if (indiceImage >= 0 && indiceImage < this.lesImages.size()) {
@@ -306,6 +312,10 @@ public class Pendu extends Application {
 
     public Clavier getClavier(){
         return this.clavier;
+    }
+
+    public ToggleGroup getIndiv(){
+        return this.indiv;
     }
 
     public Alert popUpPartieEnCours(){

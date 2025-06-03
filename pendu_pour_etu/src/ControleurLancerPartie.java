@@ -1,6 +1,9 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.Toggle;
+
 import java.util.Optional;
 
 /**
@@ -31,6 +34,26 @@ public class ControleurLancerPartie implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent actionEvent) {
+        Toggle choixUser = this.vuePendu.getIndiv().getSelectedToggle();
+        if (choixUser != null) {
+            RadioButton selectedRadio = (RadioButton) choixUser;
+            String choix = selectedRadio.getText(); 
+            System.out.println(choix);
+            switch (choix) {
+                case "facile":
+                    this.modelePendu.setNiveau(MotMystere.FACILE);
+                    break;
+                case "medium":
+                    this.modelePendu.setNiveau(MotMystere.MOYEN);
+                    break;
+                case "difficile":
+                    this.modelePendu.setNiveau(MotMystere.DIFFICILE);
+                    break;
+                case "expert":
+                    this.modelePendu.setNiveau(MotMystere.EXPERT);
+                    break;
+            } 
+        }
         if (!(this.modelePendu.gagne())&& !(this.modelePendu.perdu())){
             Optional<ButtonType> reponse = this.vuePendu.popUpPartieEnCours().showAndWait(); // on lance la fenêtre popup et on attends la réponse
             // si la réponse est oui
