@@ -96,20 +96,20 @@ public class Pendu extends Application {
     public void init() {
         this.modelePendu = new MotMystere("/usr/share/dict/french", 3, 10, MotMystere.FACILE, 10);
         this.lesImages = new ArrayList<Image>();
-        this.chargerImages("./img");
+        this.chargerImages("./pendu_pour_etu/img");
 
         this.boutonInfo = new Button();
         this.boutonParametres = new Button();
         this.boutonMaison = new Button();
 
 
-        ImageView accueil = new ImageView(new Image("file:./img/home.png"));
+        ImageView accueil = new ImageView(new Image("file:./pendu_pour_etu/img/home.png"));
         accueil.setFitHeight(40);
         accueil.setFitWidth(40);
-        ImageView param = new ImageView(new Image("file:./img/parametres.png"));
+        ImageView param = new ImageView(new Image("file:./pendu_pour_etu/img/parametres.png"));
         param.setFitHeight(40);
         param.setFitWidth(40);
-        ImageView info = new ImageView(new Image("file:./img/info.png"));
+        ImageView info = new ImageView(new Image("file:./pendu_pour_etu/img/info.png"));
         info.setFitHeight(40);
         info.setFitWidth(40);
 
@@ -165,27 +165,46 @@ public class Pendu extends Application {
     private BorderPane fenetreJeu(){
         this.boutonParametres.setDisable(true);
         this.dessin.setImage(this.lesImages.get(0)); 
-        this.dessin.setFitHeight(300);
+        this.dessin.setFitHeight(500);
         this.dessin.setPreserveRatio(true);
         RetourAccueil accueil = new RetourAccueil(modelePendu, this);
         this.boutonMaison.setOnAction(accueil);
         this.boutonMaison.setDisable(false);
+        
 
         BorderPane res = new BorderPane();
         VBox center = new VBox(15);
 
         this.motCrypte.setText(this.modelePendu.getMotCrypte());
-        this.motCrypte.setFont(Font.font("Arial", FontWeight.BOLD, 40));
-        this.motCrypte.setFill(Color.DARKBLUE);
+        this.motCrypte.setFont(Font.font("Arial", FontWeight.BOLD, 36));
+        // this.motCrypte.setFill(Color.DARKBLUE);
         this.motCrypte.setTextAlignment(TextAlignment.CENTER);
         center.setAlignment(Pos.CENTER);
         center.getChildren().addAll(this.motCrypte, this.dessin, this.pg, this.clavier);
         
         res.setCenter(center);
         VBox right = new VBox(15);
+
+        int niveau = this.modelePendu.getNiveau();
+        switch (niveau) {
+            case 0:
+                this.leNiveau.setText("Niveau Facile");
+                break;
+            case 1:
+                this.leNiveau.setText("Niveau Medium");
+                break;
+            case 2: 
+                this.leNiveau.setText("Niveau Difficile");
+                break;
+            case 3:
+                this.leNiveau.setText("Niveau Expert");
+
+        }
+        this.leNiveau.setFont(Font.font("Arial", FontWeight.BLACK, 20));
+
+
         right.getChildren().addAll(this.leNiveau, this.chrono, this.bJouer);
         res.setRight(right);
-        
         return res;
     }
 
@@ -210,12 +229,16 @@ public class Pendu extends Application {
 
         ControleurLancerPartie lancerPartie = new ControleurLancerPartie(modelePendu, this);
         this.bJouer.setOnAction(lancerPartie);
+        ControleurInfos infoPartie = new ControleurInfos(this);
+        this.boutonInfo.setOnAction(infoPartie);
+
         VBox accueil = new VBox();
         titreRadio.setPadding(new Insets(20,40,20,0));
         accueil.getChildren().addAll(this.bJouer, titreRadio);
         accueil.setPadding(new Insets(20,40,20,40));
         res.setCenter(accueil);
         this.boutonMaison.setDisable(true);
+        this.boutonParametres.setDisable(false);
         return res;
     }
 
@@ -282,19 +305,17 @@ public class Pendu extends Application {
         
     public Alert popUpReglesDuJeu(){
         // A implementer
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Le jeu du pendu consiste à deviner un mot en tentant de le trouver lettre par lettre.\n Attention, chaque lettre essayé qui n'est pas bonne complète l'image du pendu, lorsqu'on l'image arrive à son terme, vous avez perdu !");
         return alert;
     }
     
     public Alert popUpMessageGagne(){
-        // A implementer
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);        
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Bravo ! Vous avez gagné !");        
         return alert;
     }
     
     public Alert popUpMessagePerdu(){
-        // A implementer    
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Vous avez perdu\n le mot a trouvé était "+this.modelePendu.getMotATrouve());
         return alert;
     }
 
