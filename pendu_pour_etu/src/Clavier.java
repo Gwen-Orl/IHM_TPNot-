@@ -34,6 +34,9 @@ public class Clavier extends TilePane{
         touches = "ABCDEFGHIJKLMNOPQRSTUVWXYZ-";
         for (int i = 0; i < touches.length(); i++) {
             Button lettre = new Button();
+            lettre.setStyle("-fx-background-radius: 15; -fx-border-radius: 15;");
+            lettre.setPrefWidth(35);
+            lettre.setPrefHeight(35);
             lettre.setText(String.valueOf(touches.charAt(i)));
             lettre.setOnAction(actionTouches);
             clavier.add(lettre);

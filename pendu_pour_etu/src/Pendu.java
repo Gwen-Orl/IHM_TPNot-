@@ -162,48 +162,51 @@ public class Pendu extends Application {
      // * @return la fenêtre de jeu avec le mot crypté, l'image, la barre
      // *         de progression et le clavier
      // */
-    private BorderPane fenetreJeu(){
-        this.boutonParametres.setDisable(true);
-        this.dessin.setImage(this.lesImages.get(0)); 
-        this.dessin.setFitHeight(500);
-        this.dessin.setPreserveRatio(true);
-        RetourAccueil accueil = new RetourAccueil(modelePendu, this);
-        this.boutonMaison.setOnAction(accueil);
-        this.boutonMaison.setDisable(false);
-        
+    private BorderPane fenetreJeu() {
+    this.boutonParametres.setDisable(true);
+    this.dessin.setImage(this.lesImages.get(0)); 
+    this.dessin.setFitHeight(500);
+    this.dessin.setPreserveRatio(true);
+    RetourAccueil accueil = new RetourAccueil(modelePendu, this);
+    this.boutonMaison.setOnAction(accueil);
+    this.boutonMaison.setDisable(false);
 
-        BorderPane res = new BorderPane();
-        VBox center = new VBox(15);
-        this.clavier = new Clavier("ABCDEFGHIJKLMNOPQRSTUVWXYZ-", new ControleurLettres(this.modelePendu, this), 7);
-        this.motCrypte.setText(this.modelePendu.getMotCrypte());
-        this.motCrypte.setFont(Font.font("Arial", FontWeight.BOLD, 36));
-        this.motCrypte.setTextAlignment(TextAlignment.CENTER);
-        center.setAlignment(Pos.CENTER);
-        center.getChildren().addAll(this.motCrypte, this.dessin, this.pg, this.clavier);
-        
-        res.setCenter(center);
-        VBox right = new VBox(15);
+    BorderPane res = new BorderPane();
+    
+    VBox center = new VBox(15);
+    this.clavier = new Clavier("ABCDEFGHIJKLMNOPQRSTUVWXYZ-", new ControleurLettres(this.modelePendu, this), 7);
+    clavier.setHgap(10);
+    clavier.setVgap(10);
+    
+    this.motCrypte.setText(this.modelePendu.getMotCrypte());
+    this.motCrypte.setFont(Font.font("Arial", FontWeight.BOLD, 36));
+    this.motCrypte.setTextAlignment(TextAlignment.CENTER);
+    
+    center.setAlignment(Pos.TOP_CENTER);
+    center.getChildren().addAll(this.motCrypte, this.dessin, this.pg, this.clavier);
+    center.setPadding(new Insets(30, 0, 0, 0));
+    res.setCenter(center);
 
-        int niveau = this.modelePendu.getNiveau();
-        switch (niveau) {
-            case 0:
-                this.leNiveau.setText("Niveau Facile");
-                break;
-            case 1:
-                this.leNiveau.setText("Niveau Medium");
-                break;
-            case 2: 
-                this.leNiveau.setText("Niveau Difficile");
-                break;
-            case 3:
-                this.leNiveau.setText("Niveau Expert");
-
-        }
-        this.leNiveau.setFont(Font.font("Arial", FontWeight.BLACK, 20));
-        right.getChildren().addAll(this.leNiveau, this.chrono, this.bJouer);
-        res.setRight(right);
-        return res;
+    VBox right = new VBox(15);
+    right.setAlignment(Pos.TOP_CENTER);
+    right.setMaxHeight(Double.MAX_VALUE);
+    right.setPrefWidth(275);
+    right.setPadding(new Insets(30, 0, 0, 0));
+    
+    int niveau = this.modelePendu.getNiveau();
+    switch (niveau) {
+        case 0 -> this.leNiveau.setText("Niveau Facile");
+        case 1 -> this.leNiveau.setText("Niveau Medium");
+        case 2 -> this.leNiveau.setText("Niveau Difficile");
+        case 3 -> this.leNiveau.setText("Niveau Expert");
     }
+    this.leNiveau.setFont(Font.font("Arial", FontWeight.BLACK, 20));
+    right.getChildren().addAll(this.leNiveau, this.chrono, this.bJouer);
+    res.setRight(right);
+
+    return res;
+}
+
 
     // /**
      // * @return la fenêtre d'accueil sur laquelle on peut choisir les paramètres de jeu
