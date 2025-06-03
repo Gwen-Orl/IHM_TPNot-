@@ -96,20 +96,20 @@ public class Pendu extends Application {
     public void init() {
         this.modelePendu = new MotMystere("/usr/share/dict/french", 3, 10, MotMystere.FACILE, 10);
         this.lesImages = new ArrayList<Image>();
-        this.chargerImages("./pendu_pour_etu/img");
+        this.chargerImages("./img");
 
         this.boutonInfo = new Button();
         this.boutonParametres = new Button();
         this.boutonMaison = new Button();
 
 
-        ImageView accueil = new ImageView(new Image("file:./pendu_pour_etu/img/home.png"));
+        ImageView accueil = new ImageView(new Image("file:./img/home.png"));
         accueil.setFitHeight(40);
         accueil.setFitWidth(40);
-        ImageView param = new ImageView(new Image("file:./pendu_pour_etu/img/parametres.png"));
+        ImageView param = new ImageView(new Image("file:./img/parametres.png"));
         param.setFitHeight(40);
         param.setFitWidth(40);
-        ImageView info = new ImageView(new Image("file:./pendu_pour_etu/img/info.png"));
+        ImageView info = new ImageView(new Image("file:./img/info.png"));
         info.setFitHeight(40);
         info.setFitWidth(40);
 
@@ -128,7 +128,7 @@ public class Pendu extends Application {
         this.titre = new Label("Jeu du Pendu");
         this.titre.setFont(Font.font("Arial", FontWeight.BLACK, 30));
         this.panelCentral = fenetreAccueil();
-        this.clavier = new Clavier("ABCDEFGHIJKLMNOPQRSTUVWXYZ-", new ControleurLettres(this.modelePendu, this), 7);
+        this.clavier = new Clavier("ABCDEFGHIJKLMNOPQRSTUVWXYZ-", new ControleurLettres(this.modelePendu, this), 7);       
         this.chrono = new Chronometre();
         
         
@@ -174,10 +174,9 @@ public class Pendu extends Application {
 
         BorderPane res = new BorderPane();
         VBox center = new VBox(15);
-
+        this.clavier = new Clavier("ABCDEFGHIJKLMNOPQRSTUVWXYZ-", new ControleurLettres(this.modelePendu, this), 7);
         this.motCrypte.setText(this.modelePendu.getMotCrypte());
         this.motCrypte.setFont(Font.font("Arial", FontWeight.BOLD, 36));
-        // this.motCrypte.setFill(Color.DARKBLUE);
         this.motCrypte.setTextAlignment(TextAlignment.CENTER);
         center.setAlignment(Pos.CENTER);
         center.getChildren().addAll(this.motCrypte, this.dessin, this.pg, this.clavier);
@@ -201,8 +200,6 @@ public class Pendu extends Application {
 
         }
         this.leNiveau.setFont(Font.font("Arial", FontWeight.BLACK, 20));
-
-
         right.getChildren().addAll(this.leNiveau, this.chrono, this.bJouer);
         res.setRight(right);
         return res;
@@ -286,6 +283,8 @@ public class Pendu extends Application {
     public void majAffichage(){
         this.motCrypte.setText(this.modelePendu.getMotCrypte());
         mettreAJourImage();    
+        double progression = (double) this.modelePendu.getNbEssais() / this.modelePendu.getNbErreursMax();
+        this.pg.setProgress(progression);
     }
 
     /**
@@ -295,6 +294,10 @@ public class Pendu extends Application {
     public Chronometre getChrono(){
         // A implémenter
         return null; // A enlever
+    }
+
+    public Clavier getClavier(){
+        return this.clavier;
     }
 
     public Alert popUpPartieEnCours(){

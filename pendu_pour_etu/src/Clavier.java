@@ -2,6 +2,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Circle ;
@@ -28,7 +29,8 @@ public class Clavier extends TilePane{
     public Clavier(String touches, EventHandler<ActionEvent> actionTouches, int tailleLigne) {
         clavier = new ArrayList<>();
         this.setPrefColumns(tailleLigne);
-        this.setPrefRows((int) Math.ceil((double) 27 / tailleLigne));
+        // this.setPrefRows((int) Math.ceil((double) 27 / tailleLigne));
+        this.setPrefRows(4);
         touches = "ABCDEFGHIJKLMNOPQRSTUVWXYZ-";
         for (int i = 0; i < touches.length(); i++) {
             Button lettre = new Button();
@@ -36,8 +38,12 @@ public class Clavier extends TilePane{
             lettre.setOnAction(actionTouches);
             clavier.add(lettre);
             this.getChildren().add(lettre);
-}
+        }
 
+    }
+
+    public List<Button> getClavier(){
+        return this.clavier;
     }
 
     /**
@@ -45,11 +51,17 @@ public class Clavier extends TilePane{
      * @param touchesDesactivees une chaine de caractères contenant la liste des touches désactivées
      */
     public void desactiveTouches(Set<String> touchesDesactivees){
-        // A implémenter
-        // for (Node node : this.getChildren()){
-        //     if (node instanceof Button){
-                
-        //     }
-        // }
+        for (Node node : this.getChildren()){
+            if (node instanceof Button){
+                Button btn = (Button) node;
+                if (touchesDesactivees.contains(btn.getText())){
+                    btn.setDisable(true);
+                }
+                else{
+                    btn.setDisable(false);
+                }
+            }
+        }            
     }
 }
+
