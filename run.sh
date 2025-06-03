@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Modifier ce chemin vers ton dossier JavaFX
+# Modifiez ce chemin vers votre dossier JavaFX si besoin
 JAVAFX="/usr/share/openjfx/lib/"
 
 javac --module-path $JAVAFX --add-modules javafx.controls,javafx.fxml -d pendu_pour_etu/bin pendu_pour_etu/src/*.java
