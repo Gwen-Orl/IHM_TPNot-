@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Arrays;
 import java.io.File;
-import java.security.spec.ECFieldF2m;
 import java.util.ArrayList;
 
 
@@ -97,20 +96,20 @@ public class Pendu extends Application {
     public void init() {
         this.modelePendu = new MotMystere("/usr/share/dict/french", 3, 10, MotMystere.FACILE, 10);
         this.lesImages = new ArrayList<Image>();
-        this.chargerImages("./img");
+        this.chargerImages("./pendu_pour_etu/img");
 
         this.boutonInfo = new Button();
         this.boutonParametres = new Button();
         this.boutonMaison = new Button();
 
 
-        ImageView accueil = new ImageView(new Image("file:./img/home.png"));
+        ImageView accueil = new ImageView(new Image("file:./pendu_pour_etu/img/home.png"));
         accueil.setFitHeight(40);
         accueil.setFitWidth(40);
-        ImageView param = new ImageView(new Image("file:./img/parametres.png"));
+        ImageView param = new ImageView(new Image("file:./pendu_pour_etu/img/parametres.png"));
         param.setFitHeight(40);
         param.setFitWidth(40);
-        ImageView info = new ImageView(new Image("file:./img/info.png"));
+        ImageView info = new ImageView(new Image("file:./pendu_pour_etu/img/info.png"));
         info.setFitHeight(40);
         info.setFitWidth(40);
 
@@ -202,13 +201,9 @@ public class Pendu extends Application {
         case 3 : this.leNiveau.setText("Niveau Expert"); break;
     }
     this.leNiveau.setFont(Font.font("Arial", FontWeight.BLACK, 20));
+    ControleurLancerPartie reLancerPartie = new ControleurLancerPartie(modelePendu, this);
     Button nouveauMot = new Button("Nouveau mot");
-    nouveauMot.setOnAction(e -> {
-        Optional<ButtonType> reponse = popUpPartieEnCours().showAndWait(); 
-        if (reponse.isPresent() && reponse.get().equals(ButtonType.YES)){
-            lancePartie();
-        }   
-    });
+    nouveauMot.setOnAction(reLancerPartie);
     right.getChildren().addAll(this.leNiveau, this.chrono, nouveauMot);
     res.setRight(right);
 
@@ -306,8 +301,7 @@ public class Pendu extends Application {
      * @return le chronomètre du jeu
      */
     public Chronometre getChrono(){
-        // A implémenter
-        return null; // A enlever
+        return this.chrono;
     }
 
     public Clavier getClavier(){
