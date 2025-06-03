@@ -8,11 +8,11 @@ public class ControleurChronometre implements EventHandler<ActionEvent> {
     /**
      * temps enregistré lors du dernier événement
      */
-    private long tempsPrec;
+    private long tmpPrec;
     /**
      * temps écoulé depuis le début de la mesure
      */
-    private long tempsEcoule;
+    private long tmpEcoule;
     /**
      * Vue du chronomètre
      */
@@ -26,8 +26,8 @@ public class ControleurChronometre implements EventHandler<ActionEvent> {
      */
     public ControleurChronometre (Chronometre chrono){
         this.chrono = chrono;
-        this.tempsEcoule = 0;
-        this.tempsPrec = -1;
+        this.tmpEcoule = 0;
+        this.tmpPrec = -1;
 
     }
 
@@ -39,21 +39,30 @@ public class ControleurChronometre implements EventHandler<ActionEvent> {
      */
     @Override
     public void handle(ActionEvent actionEvent) {
-        // A implémenter
-        long heureDuSysteme = System.currentTimeMillis();
-        if (this.tempsPrec!=-1){
-            tempsPrec = heureDuSysteme * this.tempsEcoule;
-            long tempsInterval = heureDuSysteme - this.tempsPrec;
-            this.tempsEcoule += tempsInterval;
-            this.chrono.setText(tempsEcoule/100 +"");
+        long tmpAct = System.currentTimeMillis();
+        tmpEcoule += (tmpAct - tmpPrec);
+        tmpPrec = tmpAct;
+
+        int totalSec = (int)(tmpEcoule / 1000);
+        int h = totalSec / 3600;
+        int min = (totalSec % 3600) / 60;
+        int sec = totalSec % 60;
+        if (totalSec < 60) {
+            this.chrono.setText(String.format("%ds", sec));
+        } 
+        if (totalSec < 3600) {
+            this.chrono.setText(String.format("%dmin %ds", min, sec));
+        } 
+        else {
+            this.chrono.setText(String.format("%dh %dmin %ds", h, min, sec));
         }
-        this.tempsPrec = heureDuSysteme;
     }
 
     /**
      * Remet la durée à 0
      */
     public void reset(){
-        this.chrono.resetTime();
+        this.tmpEcoule = 0;
+        this.tmpPrec = System.currentTimeMillis();
     }
 }

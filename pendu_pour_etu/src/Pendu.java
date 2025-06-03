@@ -154,17 +154,22 @@ public class Pendu extends Application {
     // /**
      // * @return le panel du chronomètre
      // */
-    // private TitledPane leChrono(){
-        // A implementer
-        // TitledPane res = new TitledPane();
-        // return res;
-    // }
+    private TitledPane leChrono(){
+        VBox chronoBox = new VBox();
+        chronoBox.setAlignment(Pos.CENTER);
+        chronoBox.setPadding(new Insets(10));
+        chronoBox.getChildren().add(this.chrono);
+        TitledPane res = new TitledPane("Chronomètre", chronoBox);
+        res.setCollapsible(false);
+        return res;
+    }
 
     // /**
      // * @return la fenêtre de jeu avec le mot crypté, l'image, la barre
      // *         de progression et le clavier
      // */
     private BorderPane fenetreJeu() {
+    this.chrono.setVisible(true);  
     this.boutonParametres.setDisable(true);
     this.dessin.setImage(this.lesImages.get(0)); 
     this.dessin.setFitHeight(500);
@@ -279,6 +284,9 @@ public class Pendu extends Application {
 
     /** lance une partie */
     public void lancePartie(){
+        this.chrono.stop();
+        this.chrono.resetTime();
+        this.chrono.start();
         this.modelePendu.relancerPartie();
         modeJeu();
     }

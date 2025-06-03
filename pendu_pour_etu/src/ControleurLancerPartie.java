@@ -38,7 +38,6 @@ public class ControleurLancerPartie implements EventHandler<ActionEvent> {
         if (choixUser != null) {
             RadioButton selectedRadio = (RadioButton) choixUser;
             String choix = selectedRadio.getText(); 
-            System.out.println(choix);
             switch (choix) {
                 case "facile":
                     this.modelePendu.setNiveau(MotMystere.FACILE);
